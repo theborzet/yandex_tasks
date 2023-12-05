@@ -1,20 +1,34 @@
+# В дощечке в один ряд вбиты гвоздики. Любые два гвоздика можно соединить ниточкой. 
+# Требуется соединить некоторые пары гвоздиков ниточками так, чтобы к каждому гвоздику была привязана хотя бы одна ниточка, 
+# а суммарная длина всех ниточек была минимальна.
+
+
+# Формат вывода
+# Выведите единственное число — минимальную суммарную длину всех ниточек.
+
+# Пример 1
+# Ввод
+# 6
+# 3 13 12 4 14 6
+# Вывод
+# 5
+
 def main():
     N = int(input())
-    included = [False] * N
+    res = [0] * N
 
     nails = list(map(int, input().split()))
     nails.sort()
 
-    total_lenght = 0
-    total_lenght += nails[1] - nails[0]
-    included[0], included[1] = True, True
-    for i in range(2, N-1):
-        if not included[i]:
-            distance = min(abs(nails[i] - nails[i-1]), abs(nails[i+1] - nails[i]))
-            total_lenght += distance
+    if N == 2:
+        print(nails[1] - nails[0])
+    else:
+        res[1] = nails[1] - nails[0]
+        res[2] = nails[2] - nails[0]
+        for i in range(3, N):
+            res[i] = min(res[i-1], res[i-2]) + nails[i] - nails[i-1]
 
-
-    print(total_lenght)
+    print(res[N-1])
 
 
 if __name__ == '__main__':
